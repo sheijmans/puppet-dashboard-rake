@@ -14,7 +14,7 @@ To use this rake file you need:
 
 ## Rake File Installation
 
-Place the rake file in <Puppet-Dashboard>/lib/tasks directory.
+Place the rake file in [Puppet-Dashboard]/lib/tasks directory.
 
 ## Usage
 
