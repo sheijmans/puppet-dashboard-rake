@@ -1,4 +1,5 @@
-require 'rake_helpers'
+#require 'rake_helpers'
+
 
 namespace :mcollective do
   desc 'Perform MCollective actions based on the nodes in Puppet Dashboard Groups'
@@ -56,5 +57,29 @@ namespace :mcollective do
     end
 
     File.delete('/tmp/group_nodes.txt')
+  end
+
+  desc 'List nodes in Puppet Dashboard Group'
+  task :group_list => :environment do
+    group = false
+    names = NodeGroup.all.map(&:name)
+
+    if ENV['group']
+      group = ENV['group']
+    else
+      puts 'Must specify a Puppet Dashboard Group name (group=<group>).'
+      exit 1
+    end
+
+    if ! names.include? "#{group}"
+      puts 'Puppet Dashboard Group does not exists!'
+      exit 1
+    end
+
+    puts "Puppet Dashboard Group: #{group}"
+    Node.find(get_group(group).nodes).each do |groupnode|
+      puts "#{groupnode.name}\n"
+    end
+
   end
 end
